@@ -1,0 +1,9 @@
+.idea/
+node_modules/
+dist/
+tmp/
+temp/
+
+ormconfig.json
+.env
+docker/database
