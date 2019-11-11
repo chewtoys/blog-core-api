@@ -11,49 +11,44 @@ import Container from "typedi";
 
 import { Image } from "./Image";
 import { Role } from "./Role";
-import { Model } from "../helpers/interfaces/Model";
 import { UserService } from "../services/UserService";
+import { AbstractModel } from "../helpers/class/AbstractModel";
+import { Property } from "../helpers/decorators/Property";
 
 @Entity()
-export class User implements Model {
+export class User extends AbstractModel {
+    @Property()
     @PrimaryGeneratedColumn()
     public id: number;
 
+    @Property()
     @Column()
     public name: string;
 
+    @Property()
     @Column()
     public email: string;
 
+    @Property()
     @Column()
     public password: string;
 
+    @Property()
     @Column({ unique: true })
     public secret: string;
 
+    @Property()
     @Column()
     public accountStatus: string;
 
+    @Property()
     @OneToOne((type) => Image)
     public avatar?: Image;
 
+    @Property()
     @ManyToMany((type) => Role)
     @JoinTable()
     public roles: Role[];
-
-    /**
-     * @inheritdoc
-     */
-    populate(data: any): this {
-        return Object.assign(Container.get(UserService).getColumns(), data);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    export() {
-        throw new Error("Method not implemented.");
-    }
 
     /**
      * Normalize object by injecting values when property is empty

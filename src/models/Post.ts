@@ -1,58 +1,45 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-import { Model } from '../helpers/interfaces/Model';
 import { Image } from './Image';
 import { User } from './User';
-import { ProtectedContent } from '../helpers/class/ProtectedContent'
+import { Property } from "../helpers/decorators/Property";
+import { AbstractModel } from "../helpers/class/AbstractModel";
 
 @Entity()
-export class Post extends ProtectedContent implements Model {
+export class Post extends AbstractModel {
+    @Property()
     @PrimaryGeneratedColumn()
     public id: number;
 
+    @Property()
     @Column()
     public title: string;
 
+    @Property()
     @Column()
     public content: string;
 
+    @Property()
     @ManyToOne((type) => User)
     public createdBy: User;
 
+    @Property()
     @Column()
     public creationDate: Date;
 
+    @Property()
     @ManyToOne((type) => User)
     public updatedBy: User;
 
+    @Property()
     @Column()
     public updatedOn: Date;
 
+    @Property()
     @ManyToOne((type) => Image)
     public image: Image;
 
-    constructor() {
-        super();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    populate(data: any): this {
-        this.title = data.title;
-        this.content = data.content;
-        this.createdBy = new User().populate(data.createdBy);
-        this.creationDate = new Date(data.creationDate);
-        this.updatedBy = new User().populate(data.updatedBy);
-        this.image = new Image().populate(data.image);
-
-        return this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    export() {
-        throw new Error("Method not implemented.");
+    constructor(props?: any) {
+        super(props);
     }
 }

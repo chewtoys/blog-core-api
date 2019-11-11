@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 
 import { routes } from "./router";
+import { Image } from "./models/Image";
 
 // load .env file
 dotenv.config();
@@ -74,5 +75,19 @@ if (process.env.NODE_ENV !== 'test') {
         console.log(`> App running on port ${ PORT }`);
     });
 }
+
+const image = new Image({
+    id: 1,
+    name: 'ma_super_image.png',
+    path: 'test/truc/bidule/ma_super_image.png',
+    description: 'This is a super image!',
+    creationDate: '7 novembre 2019',
+    mimeType: 'image/png',
+    width: 215,
+    height: '214',
+});
+
+console.log(image);
+
 
 export { app };
